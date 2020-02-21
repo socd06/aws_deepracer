@@ -1,12 +1,15 @@
 # aws_deepracer
- Reinforcement Learning using AWS Cloud Services DeepRacer
+ Reinforcement Learning using [AWS Cloud Services DeepRacer](https://console.aws.amazon.com/deepracer/home?region=us-east-1#welcome)
 
-## Reward Function
+### Agent and Model Configuration
+Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207)
 
-$def reward_function(params):
+### Reward Function
+```python
+def reward_function(params):
     ###############################################################################
     '''
-    Example of using waypoints and heading to make the car in the right direction
+    Example of using waypoints and heading to make the car in the right direction but also using the steering angle to make the car go faster on straight lines
     '''
     import math
     # Read input variables
@@ -43,3 +46,4 @@ $def reward_function(params):
         reward *= 0.5
 
     return reward
+```
