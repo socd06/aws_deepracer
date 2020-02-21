@@ -9,7 +9,7 @@ Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https:
 def reward_function(params):
     ###############################################################################
     '''
-    Example of using waypoints and heading to make the car in the right direction but also using the steering angle to make the car go faster on straight lines
+    Example of using waypoints and heading to make the car in the right direction
     '''
     import math
     # Read input variables
@@ -20,11 +20,8 @@ def reward_function(params):
     steering = abs(params['steering_angle']) # We don't care whether it is left or right steering
     STEERING_THRESHOLD = 20.0
     
-    # Initialize the reward depending on steering
-    if steering > STEERING_THRESHOLD: #penalize if steering
-        reward *= 0.8
-    else:
-        reward = 1.0 #reward if not steering
+    # Initialize the reward
+    reward = 1.0
 
     # Calculate the direction of the center line based on the closest waypoints
     next_point = waypoints[closest_waypoints[1]]
@@ -39,11 +36,17 @@ def reward_function(params):
     direction_diff = abs(track_direction - heading)
     if direction_diff > 180:
         direction_diff = 360 - direction_diff
-
+    
     # Penalize the reward if the difference is too large
     DIRECTION_THRESHOLD = 10.0
     if direction_diff > DIRECTION_THRESHOLD:
-        reward *= 0.5
-
+        reward *= 0.5 # reward = reward *0.5 
+        if steering > STEERING_THRESHOLD: #penalize more if steering
+            reward *= 0.5
+    elif direction_diff < DIRECTION_THRESHOLD: #reward if close to waypoints
+        reward *= 2.0 #and reward more if not steering 
+        if steering < STEERING_THRESHOLD: #penalize more if steering
+            reward *= 2.0
+    
     return reward
 ```
