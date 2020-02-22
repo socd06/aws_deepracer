@@ -4,6 +4,13 @@
 ### Agent and Model Configuration
 Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207)
 
+### Model Name
+AWSDeepRacer2020-waypoints-allwheels-steering-speed
+
+### Training job description
+Rewards being close to waypoints, having all wheels on track, and going fast plus max reward on straight lines (no steering). 
+3-layer CNN, front-facing camera. Trained on Cumulo carrera track.
+
 ### Reward Function
 ```python
 def reward_function(params):
@@ -59,11 +66,10 @@ def reward_function(params):
         reward *= 2.0
     else: # Penalize if the car goes too slow
         reward *= 0.5
-    
         
     return reward
 ```
 
 ## Hyper-parameter tuning
 
-Changed learning rate to 0.0005 to save training time.
+Changed learning rate to 0.0007 to save training time.
