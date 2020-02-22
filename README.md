@@ -9,7 +9,7 @@ AWSDeepRacer2020-waypoints-allwheels-steering-speed
 
 ### Training job description
 Rewards being close to waypoints, having all wheels on track, and going fast plus max reward on straight lines (no steering). 
-3-layer CNN, front-facing camera. Trained on Cumulo carrera track.
+3-layer CNN, front-facing camera. Trained on Cumulo carrera, re:Invent 2018, AWS Summit Raceway and 2019 Championship Cup tracks.
 
 ### Reward Function
 ```python
@@ -48,15 +48,16 @@ def reward_function(params):
     if direction_diff > 180:
         direction_diff = 360 - direction_diff
     
-    DIRECTION_THRESHOLD = 10.0
+    DIRECTION_THRESHOLD = 15.0
+    CLOSE_DIRECTION_THRESHOLD = 5.0
     
-    if direction_diff > DIRECTION_THRESHOLD: # Penalize if the difference is too large
+    if direction_diff > DIRECTION_THRESHOLD or all_wheels_on_track == False: # Penalize if the difference is too large or if going off track
         reward *= 0.5 # reward = reward *0.5
-        if not all_wheels_on_track: # Penalize more if the car is going off track
-            reward *= 0.5
-            
+    
     elif direction_diff < DIRECTION_THRESHOLD: # Reward if close to waypoints
         reward *= 2.0 
+        if direction_diff < CLOSE_DIRECTION_THRESHOLD: #Reward more if closer to the center
+            reward *= 2.0
         if all_wheels_on_track == True: # Reward more if all wheels are in the track
             reward *= 2.0
             if steering < STEERING_THRESHOLD: #Max Reward when not steering (straight lines)
@@ -72,4 +73,4 @@ def reward_function(params):
 
 ## Hyper-parameter tuning
 
-Changed learning rate to 0.0007 to save training time.
+Changed learning rate to 0.00075 to save training time.
