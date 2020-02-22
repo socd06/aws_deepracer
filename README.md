@@ -64,3 +64,7 @@ def reward_function(params):
         
     return reward
 ```
+
+## Hyper-parameter tuning
+
+Changed learning rate to 0.0005 to save training time.
