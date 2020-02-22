@@ -5,10 +5,11 @@
 Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207)
 
 ### Model Name
-AWSDeepRacer2020-waypoints-allwheels-steering-speed
+AWSDeepRacer2020-waypoints-allwheels-speed
 
 ### Training job description
-Rewards being close to waypoints, having all wheels on track, and going fast plus max reward on straight lines (no steering). 
+Trained on 2019 DeepRacer Championship cup for an hour and a half. Tuned hyperparameters for higher learning rate (0.00075), smaller batch size (32) and epochs to 5.
+
 3-layer CNN, front-facing camera. Trained on Cumulo carrera, re:Invent 2018, AWS Summit Raceway and 2019 Championship Cup tracks.
 
 ### Reward Function
@@ -23,13 +24,11 @@ def reward_function(params):
     waypoints = params['waypoints']
     closest_waypoints = params['closest_waypoints']
     heading = params['heading']
-    #also read steering 
-    steering = abs(params['steering_angle']) # We don't care whether it is left or right steering
-    STEERING_THRESHOLD = 20.0
     #update to also read wheels on track and speed
     all_wheels_on_track = params['all_wheels_on_track']
     speed = params['speed']
     SPEED_THRESHOLD = 1.0 
+    HIGH_SPEED_THRESHOLD = 4.0
 
     # Initialize the reward
     reward = 1.0
@@ -51,26 +50,28 @@ def reward_function(params):
     DIRECTION_THRESHOLD = 15.0
     CLOSE_DIRECTION_THRESHOLD = 5.0
     
-    if direction_diff > DIRECTION_THRESHOLD or all_wheels_on_track == False: # Penalize if the difference is too large or if going off track
-        reward *= 0.5 # reward = reward *0.5
-    
-    elif direction_diff < DIRECTION_THRESHOLD: # Reward if close to waypoints
+    # Reward if close to waypoints
+    if direction_diff < CLOSE_DIRECTION_THRESHOLD: #Reward more if closer to the center
+        reward *= 4.0
+    elif direction_diff < DIRECTION_THRESHOLD: #Still reward if close to waypoints
         reward *= 2.0 
-        if direction_diff < CLOSE_DIRECTION_THRESHOLD: #Reward more if closer to the center
-            reward *= 2.0
-        if all_wheels_on_track == True: # Reward more if all wheels are in the track
-            reward *= 2.0
-            if steering < STEERING_THRESHOLD: #Max Reward when not steering (straight lines)
-                reward *= 2.0
     
-    elif speed > SPEED_THRESHOLD: # High reward if the car stays on track and goes fast
+    # Higher reward if the car goes faster
+    elif speed > HIGH_SPEED_THRESHOLD: 
+        reward *= 4.0
+    elif speed > SPEED_THRESHOLD: # Still reward if car goes fast
         reward *= 2.0
-    else: # Penalize if the car goes too slow
-        reward *= 0.5
-        
+    
+    # Penalize if going away from waypoints, going off track or going slow 
+    elif direction_diff > DIRECTION_THRESHOLD or speed < SPEED_THRESHOLD or all_wheels_on_track == False:  
+        reward *= 0.01
+    
     return reward
 ```
 
 ## Hyper-parameter tuning
 
-Changed learning rate to 0.00075 to save training time.
+Learning rate = 0.0008
+batch size = 32 
+epochs = 5
+entropy = 0.02
