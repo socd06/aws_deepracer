@@ -19,7 +19,11 @@ def reward_function(params):
     #also read steering 
     steering = abs(params['steering_angle']) # We don't care whether it is left or right steering
     STEERING_THRESHOLD = 20.0
-    
+    #update to also read wheels on track and speed
+    all_wheels_on_track = params['all_wheels_on_track']
+    speed = params['speed']
+    SPEED_THRESHOLD = 1.0 
+
     # Initialize the reward
     reward = 1.0
 
@@ -45,8 +49,18 @@ def reward_function(params):
             reward *= 0.5
     elif direction_diff < DIRECTION_THRESHOLD: #reward if close to waypoints
         reward *= 2.0 #and reward more if not steering 
-        if steering < STEERING_THRESHOLD: #penalize more if steering
+        if steering < STEERING_THRESHOLD: #Reward when not steering
             reward *= 2.0
     
+    if not all_wheels_on_track:
+        # Penalize if the car goes off track
+        reward *= 0.5
+    elif speed < SPEED_THRESHOLD:
+        # Penalize if the car goes too slow
+        reward *= 0.5
+    else:
+        # High reward if the car stays on track and goes fast
+        reward *= 2.0
+        
     return reward
 ```
