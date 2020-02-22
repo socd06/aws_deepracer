@@ -41,26 +41,25 @@ def reward_function(params):
     if direction_diff > 180:
         direction_diff = 360 - direction_diff
     
-    # Penalize the reward if the difference is too large
     DIRECTION_THRESHOLD = 10.0
-    if direction_diff > DIRECTION_THRESHOLD:
-        reward *= 0.5 # reward = reward *0.5 
-        if steering > STEERING_THRESHOLD: #penalize more if steering
-            reward *= 0.5
-    elif direction_diff < DIRECTION_THRESHOLD: #reward if close to waypoints
-        reward *= 2.0 #and reward more if not steering 
-        if steering < STEERING_THRESHOLD: #Reward when not steering
-            reward *= 2.0
     
-    if not all_wheels_on_track:
-        # Penalize if the car goes off track
-        reward *= 0.5
-    elif speed < SPEED_THRESHOLD:
-        # Penalize if the car goes too slow
-        reward *= 0.5
-    else:
-        # High reward if the car stays on track and goes fast
+    if direction_diff > DIRECTION_THRESHOLD: # Penalize if the difference is too large
+        reward *= 0.5 # reward = reward *0.5
+        if not all_wheels_on_track: # Penalize more if the car is going off track
+            reward *= 0.5
+            
+    elif direction_diff < DIRECTION_THRESHOLD: # Reward if close to waypoints
+        reward *= 2.0 
+        if all_wheels_on_track == True: # Reward more if all wheels are in the track
+            reward *= 2.0
+            if steering < STEERING_THRESHOLD: #Max Reward when not steering (straight lines)
+                reward *= 2.0
+    
+    elif speed > SPEED_THRESHOLD: # High reward if the car stays on track and goes fast
         reward *= 2.0
+    else: # Penalize if the car goes too slow
+        reward *= 0.5
+    
         
     return reward
 ```
