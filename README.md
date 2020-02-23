@@ -44,7 +44,7 @@ def reward_function(params):
     
     # Initialize the reward
     # Reward will be increased exponentially capping at 10000 and decreased at every penalty
-    reward = 1 #very little but not 0, cero means crashed
+    reward = 1e-3 #very little but not 0, cero means crashed
     
     #Initialize thresholds
     DIRECTION_THRESHOLD = 10.0
@@ -55,18 +55,18 @@ def reward_function(params):
     
     # Reward if close to waypoints, minimal steering and going fast
     if direction_diff < DIRECTION_THRESHOLD:
-        reward *= 1e+1
+        reward *= 1e+2
     if steering < STEERING_THRESHOLD:
         reward *= 1e+1
     if speed > SPEED_THRESHOLD:
         reward *= 1e+1
     #Incentivize finishing laps but cap at 10000
     if progress == 100: 
-        reward *= 1e+1
+        reward *= 1e+3
     
     # Penalize every time it goes away from waypoints, steers too much or goes slow
     if direction_diff > DIRECTION_THRESHOLD:
-        reward *= 1e-1
+        reward *= 1e-2
     if steering > STEERING_THRESHOLD:
         reward *= 1e-1
     if speed < SPEED_THRESHOLD:
@@ -78,9 +78,9 @@ def reward_function(params):
 ## Hyper-parameters
 
 Learning rate = 0.001
-batch size = 64 
-epochs = 10  
-entropy = 0.05
+batch size = 32 
+epochs = 5 
+entropy = 0.01
 Discount factor = 0.999
-Loss Type = Mean square error (already spent about 3 hours training, convergence should not be an issue)
-Episodes = 30
+Loss Type = Huber
+Episodes = 20
