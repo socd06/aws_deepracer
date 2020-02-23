@@ -5,11 +5,9 @@
 Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207)
 
 ### Model Name
-AWSDeepRacer2020-waypoints-allwheels-speed
+AWSDeepRacer2020-advanced-reward-hyperparameters
 
 ### Training job description
-Trained on 2019 DeepRacer Championship cup for an hour and a half. Tuned hyperparameters for higher learning rate (0.00075), smaller batch size (32) and epochs to 5.
-
 3-layer CNN, front-facing camera. Trained on Cumulo carrera, re:Invent 2018, AWS Summit Raceway and 2019 Championship Cup tracks.
 
 ### Reward Function
@@ -27,6 +25,10 @@ def reward_function(params):
     #update to also read wheels on track and speed
     all_wheels_on_track = params['all_wheels_on_track']
     speed = params['speed']
+    #Read progress
+    progress = params['progress']
+    
+    #Set thresholds
     SPEED_THRESHOLD = 1.0 
     HIGH_SPEED_THRESHOLD = 4.0
 
@@ -64,14 +66,20 @@ def reward_function(params):
     
     # Penalize if going away from waypoints, going off track or going slow 
     elif direction_diff > DIRECTION_THRESHOLD or speed < SPEED_THRESHOLD or all_wheels_on_track == False:  
-        reward *= 0.01
+        reward = 1e-3
+    
+    if progress == 100: #Incentivize finishing laps
+        reward += 10000
     
     return reward
 ```
 
-## Hyper-parameter tuning
+## Hyper-parameters
 
-Learning rate = 0.0008
+Learning rate = 0.001
 batch size = 32 
 epochs = 5
-entropy = 0.02
+entropy = 0.05
+Discount factor = 0.999
+Loss Type = Mean square error (already spent about 3 hours training, convergence should not be an issue)
+Episodes = 30
