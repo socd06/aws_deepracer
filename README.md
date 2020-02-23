@@ -2,7 +2,9 @@
  Reinforcement Learning using [AWS Cloud Services DeepRacer](https://console.aws.amazon.com/deepracer/home?region=us-east-1#welcome)
 
 ## Fast Model
-AWSDeepRacer2020-fastest3L-wheels-left-tuned-wp-4hours
+AWSDeepRacer2020-fastest3L-wheels-left-tuned-wp-5hours
+
+![Best average lap time](Capture.JPG)
 
 ### Agent and Model Configuration
 Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207) except max. speed = 4 m/s 
