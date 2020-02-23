@@ -4,7 +4,7 @@
 ## Fast Model
 AWSDeepRacer2020-fastest3L-wheels-left-tuned-wp-5hours
 
-![Best average lap time](Capture.JPG)
+![Gazebo Run](run.gif)
 
 ### Agent and Model Configuration
 Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207) except max. speed = 4 m/s 
@@ -72,6 +72,9 @@ def reward_function(params):
     return reward
 ```
 
+## Results
+![Best average lap time](Capture.JPG)
+
 ### Hyper-parameters
 Learning rate = 0.001
 batch size = 32 
@@ -94,6 +97,7 @@ Trained on 2019 DeepRacer Championship cup for an hour and a half. Tuned hyperpa
 3-layer CNN, front-facing camera. Trained on Cumulo carrera, re:Invent 2018, AWS Summit Raceway and 2019 Championship Cup tracks.
 
 ### Reward Function
+```python
 def reward_function(params):
     ###############################################################################
     '''
@@ -147,6 +151,8 @@ def reward_function(params):
         reward *= 0.01
     
     return reward
+```
+
 ### Hyper-parameters
 Learning rate = 0.0008 
 Batch size = 32 
