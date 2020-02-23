@@ -5,36 +5,29 @@
 Parameters chosen following indications on [AWS DeepRace Workshop Lab200](https://github.com/aws-samples/aws-deepracer-workshops/tree/master/Workshops/2019-reInvent/Lab_200_AIM207)
 
 ### Model Name
-AWSDeepRacer2020-advanced-reward-hyperparameters
+AWSDeepRacer2020-fastest3L-tuned-hp
 
 ### Training job description
-3-layer CNN, front-facing camera. Trained on Cumulo carrera, re:Invent 2018, AWS Summit Raceway and 2019 Championship Cup tracks.
+3-layer CNN, front-facing camera, fastest speed. Trained for first time on The 2019 DeepRacer Championship Cup for an hour.
 
 ### Reward Function
 ```python
 def reward_function(params):
-    ###############################################################################
+    ###################################################################
     '''
-    Example of using waypoints and heading to make the car in the right direction
+    Customized reward function using waypoints and heading to make the car in the right direction and incentivizing going fast and finishing laps
     '''
     import math
     # Read input variables
     waypoints = params['waypoints']
     closest_waypoints = params['closest_waypoints']
     heading = params['heading']
-    #update to also read wheels on track and speed
-    all_wheels_on_track = params['all_wheels_on_track']
     speed = params['speed']
+    steering = abs(params['steering_angle'])
     #Read progress
     progress = params['progress']
     
-    #Set thresholds
-    SPEED_THRESHOLD = 1.0 
-    HIGH_SPEED_THRESHOLD = 4.0
-
-    # Initialize the reward
-    reward = 1.0
-
+    
     # Calculate the direction of the center line based on the closest waypoints
     next_point = waypoints[closest_waypoints[1]]
     prev_point = waypoints[closest_waypoints[0]]
@@ -49,27 +42,35 @@ def reward_function(params):
     if direction_diff > 180:
         direction_diff = 360 - direction_diff
     
-    DIRECTION_THRESHOLD = 15.0
-    CLOSE_DIRECTION_THRESHOLD = 5.0
+    # Initialize the reward
+    # Reward will be increased exponentially capping at 10000 and decreased at every penalty
+    reward = 1 #very little but not 0, cero means crashed
     
-    # Reward if close to waypoints
-    if direction_diff < CLOSE_DIRECTION_THRESHOLD: #Reward more if closer to the center
-        reward *= 4.0
-    elif direction_diff < DIRECTION_THRESHOLD: #Still reward if close to waypoints
-        reward *= 2.0 
+    #Initialize thresholds
+    DIRECTION_THRESHOLD = 10.0
+    #STEERING_THRESHOLD will depend on the agent's action space
+    STEERING_THRESHOLD = 15
+    #SPEED_THRESHOLD will depend on the agent's action space
+    SPEED_THRESHOLD = 2.67 
     
-    # Higher reward if the car goes faster
-    elif speed > HIGH_SPEED_THRESHOLD: 
-        reward *= 4.0
-    elif speed > SPEED_THRESHOLD: # Still reward if car goes fast
-        reward *= 2.0
+    # Reward if close to waypoints, minimal steering and going fast
+    if direction_diff < DIRECTION_THRESHOLD:
+        reward *= 1e+1
+    if steering < STEERING_THRESHOLD:
+        reward *= 1e+1
+    if speed > SPEED_THRESHOLD:
+        reward *= 1e+1
+    #Incentivize finishing laps but cap at 10000
+    if progress == 100: 
+        reward *= 1e+1
     
-    # Penalize if going away from waypoints, going off track or going slow 
-    elif direction_diff > DIRECTION_THRESHOLD or speed < SPEED_THRESHOLD or all_wheels_on_track == False:  
-        reward = 1e-3
-    
-    if progress == 100: #Incentivize finishing laps
-        reward += 10000
+    # Penalize every time it goes away from waypoints, steers too much or goes slow
+    if direction_diff > DIRECTION_THRESHOLD:
+        reward *= 1e-1
+    if steering > STEERING_THRESHOLD:
+        reward *= 1e-1
+    if speed < SPEED_THRESHOLD:
+        reward *= 1e-1
     
     return reward
 ```
@@ -77,8 +78,8 @@ def reward_function(params):
 ## Hyper-parameters
 
 Learning rate = 0.001
-batch size = 32 
-epochs = 5
+batch size = 64 
+epochs = 10  
 entropy = 0.05
 Discount factor = 0.999
 Loss Type = Mean square error (already spent about 3 hours training, convergence should not be an issue)
