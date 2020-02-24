@@ -76,6 +76,9 @@ def reward_function(params):
 
 ![Submission](https://github.com/socd06/aws_deepracer/edit/master/images/submission.png)
 
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+
+
 ### Hyper-parameters
 - Learning rate = 0.001
 - Batch size = 32 
