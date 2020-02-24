@@ -22,13 +22,13 @@ See faster3CNN.py file
 <img src="images/Capture.jpg" width=400 />
 
 ### Hyper-parameters
-Learning rate = 0.001
-batch size = 32 
-epochs = 5 
-entropy = 0.001 
-Discount factor = 0.999
-Loss Type = Huber
-Episodes = 20
+- Learning rate = 0.001
+- Batch size = 32 
+- Epochs = 5 
+- Entropy = 0.001 
+- Discount factor = 0.999
+- Loss Type = Huber
+- Episodes = 20
 
 ## Original (AKA Slow) Model
 Agent and Model Configuration
@@ -46,7 +46,12 @@ Trained on 2019 DeepRacer Championship cup for an hour and a half. Tuned hyperpa
 See slow3CNN.py file
 
 ### Hyper-parameters
-Learning rate = 0.0008 
-Batch size = 32 
-Epochs = 5 
-Entropy = 0.02
+- Learning rate = 0.0008 
+- Batch size = 32 
+- Epochs = 5 
+- Entropy = 0.02
+
+Default values on every other parameter.
+
+## License 
+[MIT License](https://github.com/socd06/aws_deepracer/blob/master/LICENSE)
