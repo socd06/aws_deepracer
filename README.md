@@ -74,7 +74,7 @@ def reward_function(params):
 
 ## Results
 
-![Submission](/images/submission.png)
+![Submission](https://github.com/socd06/aws_deepracer/edit/master/images/submission.png)
 
 ### Hyper-parameters
 Learning rate = 0.001
