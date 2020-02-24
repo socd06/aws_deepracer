@@ -73,11 +73,11 @@ def reward_function(params):
 ```
 
 ## Results
-
-![Submission](https://github.com/socd06/aws_deepracer/tree/master/images/submission.png)
-
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-
+As of Feb 23, 2020
+*Your rank: 48*
+Racer name: chanathunder
+Your best average lap time
+00:00:16.110
 
 ### Hyper-parameters
 - Learning rate = 0.001
