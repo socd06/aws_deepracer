@@ -77,13 +77,13 @@ def reward_function(params):
 ![Submission](https://github.com/socd06/aws_deepracer/edit/master/images/submission.png)
 
 ### Hyper-parameters
-Learning rate = 0.001
-batch size = 32 
-epochs = 5 
-entropy = 0.001 
-Discount factor = 0.999
-Loss Type = Huber
-Episodes = 20
+- Learning rate = 0.001
+- Batch size = 32 
+- Epochs = 5 
+- Entropy = 0.001 
+- Discount factor = 0.999
+- Loss Type = Huber
+- Episodes = 20
 
 ## Original (AKA Slow) Model
 Agent and Model Configuration
@@ -155,7 +155,7 @@ def reward_function(params):
 ```
 
 ### Hyper-parameters
-Learning rate = 0.0008 
-Batch size = 32 
-Epochs = 5 
-Entropy = 0.02
+- Learning rate = 0.0008 
+- Batch size = 32 
+- Epochs = 5 
+- Entropy = 0.02
