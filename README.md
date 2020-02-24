@@ -1,7 +1,7 @@
 # aws_deepracer
  Reinforcement Learning using [AWS Cloud Services DeepRacer](https://console.aws.amazon.com/deepracer/home?region=us-east-1#welcome)
 
-<img src="images/run_cropped_compressed.gif" width=360 />
+<img src="images/run_cropped_compressed.gif" width=720 />
 
 ## Fast Model
 AWSDeepRacer2020-fastest3L-wheels-left-tuned-wp-5hours
@@ -74,7 +74,7 @@ def reward_function(params):
 
 ## Results
 
-<img src="images/Capture.jpg" width=360 />
+<img src="images/capture.gif" width=360 />
 
 ### Hyper-parameters
 Learning rate = 0.001
