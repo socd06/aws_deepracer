@@ -74,7 +74,7 @@ def reward_function(params):
 
 ## Results
 
-![Submission](/images/capture.png)
+![Submission](/images/submission.png)
 
 ### Hyper-parameters
 Learning rate = 0.001
