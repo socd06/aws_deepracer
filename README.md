@@ -1,7 +1,7 @@
 # aws_deepracer
  Reinforcement Learning using [AWS Cloud Services DeepRacer](https://console.aws.amazon.com/deepracer/home?region=us-east-1#welcome)
 
-<img src="images/run.gif" width=800 />
+<img src="images/run_cropped_compressed.gif" width=800 />
 
 ## Fast Model
 AWSDeepRacer2020-fastest3L-wheels-left-tuned-wp-5hours
