@@ -74,7 +74,7 @@ def reward_function(params):
 
 ## Results
 
-![Submission](https://github.com/socd06/aws_deepracer/edit/master/images/submission.png)
+![Submission](https://github.com/socd06/aws_deepracer/tree/master/images/submission.png)
 
 ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
