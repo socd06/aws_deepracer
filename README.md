@@ -1,5 +1,5 @@
 # aws_deepracer
- Reinforcement Learning using [AWS Cloud Services DeepRacer](https://console.aws.amazon.com/deepracer/home?region=us-east-1#welcome)
+ Deep Reinforcement Learning using [AWS Cloud Services DeepRacer](https://console.aws.amazon.com/deepracer/home?region=us-east-1#welcome)
 
 <img src="images/run_cropped_compressed.gif" width=800 />
 
